@@ -1,7 +1,7 @@
 package evade
 
 import (
-	"errors"
+	"fmt"
 
 	"github.com/gocolly/colly"
 	"github.com/gocolly/colly/proxy"
@@ -10,7 +10,7 @@ import (
 func RotateProxy(c *colly.Collector, proxies *[]string) error {
 	rp, err := proxy.RoundRobinProxySwitcher(*proxies...)
 	if err != nil {
-		return errors.New("proxies were not set for collector")
+		return fmt.Errorf("error setting up proxy switcher: %s", err.Error())
 	}
 	c.SetProxyFunc(rp)
 

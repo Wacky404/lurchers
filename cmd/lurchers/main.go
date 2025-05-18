@@ -1,22 +1,37 @@
 package main
 
 import (
-	"github.com/Wacky404/lurchers/data"
+	"context"
+	"log"
+	"log/slog"
+	"time"
+
+	"github.com/Wacky404/lurchers/util"
 	"github.com/gocolly/colly"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	bookShelve := []data.Book{}
-	c := colly.NewCollector()
-	c.OnHTML("div[class]", func(e *colly.HTMLElement) {
-		className := e.Attr("class")
-		if className == "product" {
-			b := new(data.Book)
-		}
-	})
+	logFile, err := util.SetupLogger(util.WithLogName("logs/lurchers.log"))
+	if err != nil {
+		log.Fatal("error setting up logger", err)
+	}
+	defer logFile.Close()
 
-	c.OnHTML("a[href]", func(e *colly.HTMLElement) {
-		link := e.Attr("href")
-		c.Visit(e.Request.AbsoluteURL(link))
+	// this time out value will change
+	ctx, cancel := context.WithTimeout(context.Background(), time.Millisecond*500)
+	defer cancel()
+
+	err = godotenv.Load()
+	if err != nil {
+		slog.Error("error loading .env file", slog.Any("error", err))
+	}
+
+	// before making a request print "Visiting..."
+	c.OnRequest(func(r *colly.Request) {
+		slog.Info("Visiting", slog.String("Request URL", r.URL.String()))
 	})
+	// start scraping on website(s)
+	c.Visit("https://store.crunchyroll.com/collections/manga-books/?srule=Most-Popular")
+	c.Wait()
 }
