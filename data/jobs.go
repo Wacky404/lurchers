@@ -6,27 +6,31 @@ import (
 )
 
 type Job struct {
-	posting JobPosting
-	details JobDetails
+	Posting *JobPosting
+	Details *JobDetails
+}
+
+func NewJob() *Job {
+	return &Job{Posting: &JobPosting{}, Details: &JobDetails{}}
 }
 
 type JobPosting struct {
-	website      string
-	url          string
-	location     string
-	company      string
-	position     string
-	jobType      string
-	workShift    string
-	workSetting  string
-	lastModified time.Time
+	Website      string
+	Url          string
+	Location     string
+	Company      string
+	Position     string
+	JobType      string
+	WorkShift    string
+	WorkSetting  string
+	LastModified time.Time
 }
 
 type JobDetails struct {
-	skills             json.Marshaler
-	licenses           json.Marshaler
-	certs              json.Marshaler
-	education          json.Marshaler
-	benefits           json.Marshaler
-	fullJobDescription string
+	Skills             json.Marshaler
+	Licenses           json.Marshaler
+	Certs              json.Marshaler
+	Education          json.Marshaler
+	Benefits           json.Marshaler
+	FullJobDescription string
 }

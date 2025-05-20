@@ -6,6 +6,8 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/Wacky404/lurchers/data/configs"
+	"github.com/Wacky404/lurchers/evade"
 	"github.com/Wacky404/lurchers/util"
 	"github.com/gocolly/colly"
 	"github.com/joho/godotenv"
@@ -27,11 +29,20 @@ func main() {
 		slog.Error("error loading .env file", slog.Any("error", err))
 	}
 
+	// our buffed collector for indeed
+	i := configs.IndeedConfig()
+	evade.NewUserAgent(ctx, i.C)
+	proxies := []string{util.GetVar("TOR", "socks5://127.0.0.1:9050")}
+	err = evade.RotateProxy(i.C, &proxies)
+	if err != nil {
+		slog.Error("error configuring the RotateProxy", slog.Any("error", err))
+	}
+
 	// before making a request print "Visiting..."
-	c.OnRequest(func(r *colly.Request) {
-		slog.Info("Visiting", slog.String("Request URL", r.URL.String()))
+	i.C.OnRequest(func(r *colly.Request) {
+		slog.Info("Going to website", slog.String("Request URL", r.URL.String()))
 	})
 	// start scraping on website(s)
-	c.Visit("https://store.crunchyroll.com/collections/manga-books/?srule=Most-Popular")
-	c.Wait()
+	i.C.Visit(i.Data.Posting.Url)
+	i.C.Wait()
 }

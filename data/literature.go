@@ -6,49 +6,49 @@ import (
 )
 
 type Author struct {
-	name        string
-	description string
-	photo       image.Image
+	Name        string
+	Description string
+	Photo       image.Image
 }
 
 type Category struct {
-	name        string
-	subCategory SubCategory
+	Name        string
+	SubCategory SubCategory
 }
 
 type SubCategory struct {
-	name string
+	Name string
 }
 
 type Publisher struct {
-	name string
-	logo image.Image
+	Name string
+	Logo image.Image
 }
 
 type Book struct {
-	title                  string
-	author                 Author
-	category               Category
-	series                 string
-	description            string
-	cover                  image.Image
-	publisher              Publisher
-	year_published         uint16
-	print_length           uint16
-	language               string
-	isbn_10                uint32
-	isbn_13                uint32
-	reviews                string
-	rating                 float32
-	hcPriceUS              map[string]uint16
-	hcPriceCAN             map[string]uint16
-	pbPriceUS              map[string]uint16
-	pbPriceCAN             map[string]uint16
-	ebPriceUS              map[string]uint16
-	ebPriceCAN             map[string]uint16
-	audioPriceUS           uint16
-	audioPriceCAN          uint16
-	priceLastModified      time.Time
-	cheapestPrice          map[string]uint16
-	cheapPriceLastModified time.Time
+	Title                  string
+	Author                 Author
+	Category               Category
+	Series                 string
+	Description            string
+	Cover                  image.Image
+	Publisher              Publisher
+	Year_published         uint16
+	Print_length           uint16
+	Language               string
+	Isbn_10                uint32
+	Isbn_13                uint32
+	Reviews                string
+	Rating                 float32
+	HcPriceUS              map[string]uint16
+	HcPriceCAN             map[string]uint16
+	PbPriceUS              map[string]uint16
+	PbPriceCAN             map[string]uint16
+	EbPriceUS              map[string]uint16
+	EbPriceCAN             map[string]uint16
+	AudioPriceUS           uint16
+	AudioPriceCAN          uint16
+	PriceLastModified      time.Time
+	CheapestPrice          map[string]uint16
+	CheapPriceLastModified time.Time
 }
